@@ -22,9 +22,9 @@ import {
 } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
-import { useMutation } from "@tanstack/react-query";
-import { registerAPI } from "@/api/endpoints/auth";
-import ReactQueryProvider from "@/query/react-query-provider";
+// import { useMutation } from "@tanstack/react-query";
+// import { registerAPI } from "@/api/endpoints/auth";
+// import ReactQueryProvider from "@/query/react-query-provider";
 
 const registrationSchema = z.object({
   first_name: z.string().min(2, "First name is required"),
@@ -60,15 +60,15 @@ export default function RegistrationForm() {
     resolver: zodResolver(registrationSchema),
   });
 
-  const { mutate } = useMutation({
-    mutationFn: registerAPI,
-    onSuccess: (data) => {
-      console.log("User registered successfully:", data);
-    },
-    onError: (error) => {
-      console.error("Error registering user:", error);
-    },
-  });
+  // const { mutate } = useMutation({
+  //   mutationFn: registerAPI,
+  //   onSuccess: (data) => {
+  //     console.log("User registered successfully:", data);
+  //   },
+  //   onError: (error) => {
+  //     console.error("Error registering user:", error);
+  //   },
+  // });
 
   const onSubmit = async ({ dob, ...rest }: RegistrationData) => {
     const formattedDob = dob ? format(dob, "dd-MM-yy") : "";
@@ -80,7 +80,7 @@ export default function RegistrationForm() {
     // console.log("Final Date", finalData);
 
     // Trigger the mutation (POST request)
-    mutate(finalData);
+    // mutate(finalData);
   };
 
   return (

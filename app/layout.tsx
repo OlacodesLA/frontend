@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 // import localFont from "next/font/local";
-import ReactQueryProvider from "@/query/react-query-provider";
+// import ReactQueryProvider from "@/query/react-query-provider";
 import "./globals.css";
 
 // const geistSans = localFont({
@@ -27,7 +27,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-dm antialiased`}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        {/* <ReactQueryProvider> */}
+
+        {children}
+        {/* </ReactQueryProvider> */}
       </body>
     </html>
   );
