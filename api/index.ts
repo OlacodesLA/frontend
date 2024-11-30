@@ -5,7 +5,7 @@ import axios, {
   InternalAxiosRequestConfig,
   AxiosHeaders,
 } from "axios";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 
 // Setup baseURL depending on environment
 let baseURL =
@@ -59,9 +59,9 @@ service.interceptors.response.use(
     //     removeToken();
     // }
     //@ts-ignore
-    if (response?.data?.code == "401" || response?.code == "401") {
+    if (response?.data?.status == "401" || response?.status == "401") {
       removeToken();
-      redirect("/auth/sign-in");
+      // redirect("/auth/sign-in");
     }
 
     if (!response) {
