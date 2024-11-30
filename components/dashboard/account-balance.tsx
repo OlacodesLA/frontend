@@ -20,10 +20,9 @@ export function AccountBalances() {
             <p className="text-sm text-muted-foreground">
               Last updated 3 mins ago
             </p>
-           <RefreshIcon />
+            <RefreshIcon />
           </div>
         </div>
-
 
         <div className="mt-4 flex justify-end">
           <Button
@@ -33,21 +32,26 @@ export function AccountBalances() {
             + Fund account
           </Button>
         </div>
-
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {accounts.map((account) => (
-          <Card key={account.currency} className="bg-white shadow-[#6139E74D] dark:bg-gray-800">
+          <Card
+            key={account.currency}
+            style={{
+              boxShadow: "0px 2px 9px 0px #0000000D",
+            }}
+            className="bg-white border-[#6139E74D] shadow-[#6139E74D] rounded-md dark:bg-gray-800"
+          >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 {account.flag}{" "}
                 {account.currency === "NGN"
                   ? "Nigerian account"
                   : account.currency === "CAD"
-                    ? "Canadian account"
-                    : account.currency === "GBP"
-                      ? "British account"
-                      : "United states account"}{" "}
+                  ? "Canadian account"
+                  : account.currency === "GBP"
+                  ? "British account"
+                  : "United states account"}{" "}
                 ({account.currency})
               </CardTitle>
             </CardHeader>
@@ -56,17 +60,16 @@ export function AccountBalances() {
                 {account.currency === "NGN"
                   ? "₦"
                   : account.currency === "CAD"
-                    ? "$"
-                    : account.currency === "GBP"
-                      ? "£"
-                      : "$"}
+                  ? "$"
+                  : account.currency === "GBP"
+                  ? "£"
+                  : "$"}
                 {account.balance}
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
-
     </div>
   );
 }

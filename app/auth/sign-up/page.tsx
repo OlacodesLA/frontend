@@ -22,36 +22,50 @@ import {
 } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
-// import { useMutation } from "@tanstack/react-query";
-// import { registerAPI } from "@/api/endpoints/auth";
-// import ReactQueryProvider from "@/query/react-query-provider";
+import { useMutation } from "@tanstack/react-query";
+import { registerAPI } from "@/api/endpoints/auth";
+import ReactQueryProvider from "@/query/react-query-provider";
+import { toast } from "sonner";
+import Spinner from "@/components/ui/spinner";
+import { useAuthStore } from "@/store/use-auth-store";
+import { useRouter } from "next/navigation";
 
-const registrationSchema = z.object({
-  first_name: z.string().min(2, "First name is required"),
-  last_name: z.string().min(2, "Last name is required"),
-  email: z.string().email("Invalid email address"),
-  country: z.string().min(1, "Country is required"),
-  phone_number: z.string().min(10, "Invalid phone number"),
-  residential_address: z.string().min(5, "Residential address is required"),
-  // dob: z.date().refine((date) => {
-  //   const today = new Date();
-  //   const birthDate = new Date(date);
-  //   let age = today.getFullYear() - birthDate.getFullYear();
-  //   const monthDiff = today.getMonth() - birthDate.getMonth();
-  //   if (
-  //     monthDiff < 0 ||
-  //     (monthDiff === 0 && today.getDate() < birthDate.getDate())
-  //   ) {
-  //     age = age - 1;
-  //   }
-  //   return age >= 18;
-  // }, "You must be at least 18 years old"),
-  dob: z.date(),
-});
+const registrationSchema = z
+  .object({
+    first_name: z.string().min(1, "First name is required"),
+    last_name: z.string().min(1, "Last name is required"),
+    email: z.string().email("Invalid email address"),
+    country: z.string().min(1, "Country is required"),
+    phone_number: z.string().min(10, "Invalid phone number"),
+    residential_address: z.string().min(5, "Residential address is required"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirm_password: z.string(),
+
+    // dob: z.date().refine((date) => {
+    //   const today = new Date();
+    //   const birthDate = new Date(date);
+    //   let age = today.getFullYear() - birthDate.getFullYear();
+    //   const monthDiff = today.getMonth() - birthDate.getMonth();
+    //   if (
+    //     monthDiff < 0 ||
+    //     (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    //   ) {
+    //     age = age - 1;
+    //   }
+    //   return age >= 18;
+    // }, "You must be at least 18 years old"),
+    dob: z.date(),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 type RegistrationData = z.infer<typeof registrationSchema>;
 
 export default function RegistrationForm() {
+  const router = useRouter();
+
   const {
     control,
     handleSubmit,
@@ -60,18 +74,46 @@ export default function RegistrationForm() {
     resolver: zodResolver(registrationSchema),
   });
 
-  // const { mutate } = useMutation({
-  //   mutationFn: registerAPI,
-  //   onSuccess: (data) => {
-  //     console.log("User registered successfully:", data);
-  //   },
-  //   onError: (error) => {
-  //     console.error("Error registering user:", error);
-  //   },
-  // });
+  const { mutate, isPending } = useMutation({
+    mutationFn: registerAPI,
+    onSuccess: (data) => {
+      toast.dismiss();
+      console.log("User registered successfully:", data);
+      toast.success("User registered successfully");
+      const userData = data?.data?.data;
+      if (userData) {
+        const setUser = useAuthStore.getState().setUser;
+        setUser(userData); // Store user data in Zustand
+        setTimeout(() => {
+          router.push("/auth/verify-otp");
+        }, 500);
+      }
+    },
+    onError: (error: any) => {
+      toast.dismiss();
+      console.error("Error registering user:", error);
+      const errorData = error?.data?.data;
+      if (errorData && typeof errorData === "object") {
+        // Loop through each field in the error object and show the message
+        Object.values(errorData).forEach((errorMessage) => {
+          if (typeof errorMessage === "string") {
+            toast.error(errorMessage);
+          }
+        });
+      } else if (!errorData) {
+        toast.error(error?.data?.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
+    },
+  });
 
-  const onSubmit = async ({ dob, ...rest }: RegistrationData) => {
-    const formattedDob = dob ? format(dob, "dd-MM-yy") : "";
+  const onSubmit = async ({
+    dob,
+    confirm_password,
+    ...rest
+  }: RegistrationData) => {
+    const formattedDob = dob ? format(dob, "MM-dd-yy") : "";
     // Combine the formatted DOB with the rest of the data
     const finalData = {
       ...rest,
@@ -80,7 +122,8 @@ export default function RegistrationForm() {
     // console.log("Final Date", finalData);
 
     // Trigger the mutation (POST request)
-    // mutate(finalData);
+    toast.loading("Validating credentials");
+    mutate(finalData);
   };
 
   return (
@@ -88,8 +131,10 @@ export default function RegistrationForm() {
       <div className="flex-1 flex items-center justify-center p-6 bg-white">
         <div className="w-[60%] max-w-md space-y-8">
           <div className="text-center">
-            <h1 className="text-2xl font-bold">Create your account</h1>
-            <p className="text-sm text-gray-600">
+            <h1 className="md:text-2xl text-xl font-bold">
+              Create your account
+            </h1>
+            <p className="md:text-sm text-xs text-gray-600">
               Please provide the following information to set up your account
             </p>
           </div>
@@ -150,6 +195,7 @@ export default function RegistrationForm() {
                 </p>
               )}
             </div>
+
             <div>
               <Label htmlFor="country">Country</Label>
               <Controller
@@ -258,11 +304,54 @@ export default function RegistrationForm() {
                 </p>
               )}
             </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="first_name">Password</Label>
+                <Controller
+                  name="password"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      id="password"
+                      type="password"
+                      placeholder="Password"
+                    />
+                  )}
+                />
+                {errors.first_name && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.first_name.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Label htmlFor="confirm_password">Confirm Password</Label>
+                <Controller
+                  name="confirm_password"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      id="confirm_password"
+                      type="password"
+                      placeholder="Confirm Password"
+                    />
+                  )}
+                />
+                {errors.last_name && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.last_name.message}
+                  </p>
+                )}
+              </div>
+            </div>
             <Button
               type="submit"
+              disabled={isPending}
               className="w-full bg-[#6139E7] hover:bg-purple-700"
             >
-              Create account
+              {isPending ? <Spinner /> : " Create account"}
             </Button>
           </form>
           <p className="text-center text-sm">

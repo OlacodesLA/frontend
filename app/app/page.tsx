@@ -9,6 +9,7 @@ import { MobileDashboard } from "@/components/mobile-dashboard";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { WelcomeModal } from "@/components/modal/welcomemodal";
 import { Button } from "@/components/ui/button";
+import { Moon } from "lucide-react";
 
 export default function Dashboard() {
   // const { setTheme } = useTheme();
@@ -39,9 +40,17 @@ export default function Dashboard() {
               Send, keep, and receive funds in different currencies.
             </p>
           </div>
-          <div>
-            <Button className="bg-white shadow-sm border hover:bg-white text-[#6139E7]">Manage Accounts</Button>
+          <div className="flex items-center gap-x-2">
+            <Button
+              variant="outline"
+              className="bg-white shadow-sm  hover:bg-white text-[#6139E7]"
+            >
+              Manage Accounts
+            </Button>
 
+            <Button variant="outline" className="rounded-full w-9 h-9">
+              <Moon size={21} />
+            </Button>
           </div>
         </div>
         <AccountBalances />

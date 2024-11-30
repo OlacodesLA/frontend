@@ -61,13 +61,36 @@ export function verifyAccountLoginAPI(data: {
   });
 }
 
-export function resendCodeAPI(data: { email: string }): ResponsTypes {
+export function resendCodeAPI(data: {
+  email: string;
+  is_auth: boolean;
+}): ResponsTypes {
   return $({
-    url: "/users/generate-otpe",
+    url: "/users/generate-otp",
     method: "post",
     data: data,
   });
 }
+
+// export function resendCodeAPI(data: { email: string; is_auth: boolean }) {
+//   return $({
+//     url: "/users/generate-otp",
+//     method: "get",
+//     data: {
+//       email: "zach@gmail.com",
+//       is_auth: true,
+//     }, // Pass the body as `data`
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     transformRequest: [
+//       (data, headers) => {
+//         headers["Content-Type"] = "application/json";
+//         return JSON.stringify(data); // Ensure the data is stringified
+//       },
+//     ],
+//   });
+// }
 
 export function logoutAPI(): ResponsTypes {
   return $({
