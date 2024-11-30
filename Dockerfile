@@ -36,6 +36,9 @@ WORKDIR /app
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV NEXT_PUBLIC_BASE_URL_STAGING = https://uzel-api.up.railway.app
+ENV NEXT_PUBLIC_NODE_ENV = development
+ENV NEXT_PUBLIC_STORE_KEY = nhd7sdb78jhu8jh9783gh783b8
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
