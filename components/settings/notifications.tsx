@@ -98,7 +98,7 @@ function Label({ children }: { children: React.ReactNode }) {
     <div className="space-y-0.5">
       <div className="font-medium">{children}</div>
       <div className="text-sm text-muted-foreground">
-        {children.toString().toLowerCase().includes("email")
+        {children && children.toString().toLowerCase().includes("email")
           ? "Send me a mail as regarding my transactions and balances."
           : "Receive push notification on your mobile device when ever any transaction is made."}
       </div>
