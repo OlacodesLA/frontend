@@ -21,6 +21,7 @@ module.exports = {
       },
       colors: {
         primary: "#6139E7",
+        success: "#01BA4C",
         primary100: "#6139E7",
         "muted-foreground": "#4F5E71",
         "primary-light": "#F6F3FE",
@@ -75,6 +76,9 @@ module.exports = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      boxShadow: {
+        "primary-light": "0px 2px 3px 0px #00000014",
       },
       keyframes: {
         "accordion-down": {
