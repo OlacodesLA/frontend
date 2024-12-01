@@ -113,7 +113,7 @@ export default function RegistrationForm() {
     confirm_password,
     ...rest
   }: RegistrationData) => {
-    const formattedDob = dob ? format(dob, "MM-dd-yy") : "";
+    const formattedDob = dob ? format(dob, "yyyy-MM-dd") : "";
     // Combine the formatted DOB with the rest of the data
     const finalData = {
       ...rest,
@@ -129,7 +129,7 @@ export default function RegistrationForm() {
   return (
     <div className="flex min-h-screen">
       <div className="flex-1 flex items-center justify-center p-6 bg-white">
-        <div className="w-[60%] max-w-md space-y-8">
+        <div className="md:w-[60%] max-w-md space-y-8">
           <div className="text-center">
             <h1 className="md:text-2xl text-xl font-bold">
               Create your account

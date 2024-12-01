@@ -82,7 +82,7 @@ body {
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-[#6934D31A];
   }
   body {
     @apply bg-background text-foreground;

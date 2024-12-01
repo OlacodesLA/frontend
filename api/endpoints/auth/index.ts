@@ -28,6 +28,7 @@ export function registerAPI(data: {
     data: data,
   });
 }
+
 export function loginAPI(data: {
   email: string;
   password: string;

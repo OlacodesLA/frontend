@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useMutation } from "@tanstack/react-query";
-import { loginAPI } from "@/api/endpoints/auth";
+import { loginAPI, resendCodeAPI } from "@/api/endpoints/auth";
 import {
   Form,
   FormControl,
@@ -16,6 +16,12 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { toast } from "sonner";
+import Spinner from "@/components/ui/spinner";
+import { useAuthStore } from "@/store/use-auth-store";
+import { useRouter } from "next/navigation";
+import { useResendOtp } from "@/utils/resend-otp";
+import { getProfileAPI } from "@/api/endpoints/profile";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -25,24 +31,53 @@ const loginSchema = z.object({
 type LoginData = z.infer<typeof loginSchema>;
 
 export default function Login() {
+  const { user, setUser } = useAuthStore((state) => state);
+  const router = useRouter();
   const form = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
   });
 
-  const { mutate } = useMutation({
+  const { isResending, timer, handleResendOtp } = useResendOtp(
+    resendCodeAPI,
+    form.getValues("email"),
+    true
+  );
+
+  const { mutate, isPending } = useMutation({
     mutationFn: loginAPI,
-    onSuccess: (data) => {
-      console.log("User logged in  successfully:", data);
+    onSuccess: async (data) => {
+      console.log("User logged in successfully:", data);
     },
-    onError: (error) => {
-      console.error("Error logging user:", error);
+    onError: async (error: any) => {
+      toast.dismiss();
+      console.error("Error logging in user:", error);
+      const errorData = error?.data?.data;
+      if (errorData && typeof errorData === "object") {
+        // Loop through each field in the error object and show the message
+        Object.values(errorData).forEach((errorMessage) => {
+          if (typeof errorMessage === "string") {
+            toast.error(errorMessage);
+          }
+        });
+      } else if (!errorData) {
+        if (error?.data?.message == "email not verified") {
+          setUser({ ...user, email: form.getValues("email") });
+          handleResendOtp();
+          router.push("/auth/verify-otp");
+        } else {
+          toast.error(error?.data?.message);
+        }
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     },
   });
 
   const onSubmit = async (data: LoginData) => {
     console.log(data);
+    toast.loading("Validating credentials");
     // Handle login
-    // mutate(data);
+    mutate(data);
   };
   // console.log("Errors", formState.);
 
@@ -109,7 +144,7 @@ export default function Login() {
                 type="submit"
                 className="w-full bg-[#6139E7] hover:bg-purple-700"
               >
-                Sign in
+                {isPending ? <Spinner /> : "Sign in"}
               </Button>
             </form>
           </Form>

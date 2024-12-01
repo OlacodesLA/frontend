@@ -31,7 +31,6 @@ import { useResendOtp } from "@/utils/resend-otp";
 import Spinner from "@/components/ui/spinner";
 import { saveToken } from "@/utils/auth";
 import { useRouter } from "next/navigation";
-import { getProfileAPI } from "@/api/endpoints/profile";
 
 const verificationSchema = z.object({
   otp: z.string().length(6, "OTP must be 6 digits"),
@@ -53,19 +52,12 @@ export default function EmailVerification() {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: verifyAccountLoginAPI,
-    onSuccess: async (data) => {
-      console.log("User loggined successfully:", data);
-      toast.success("Account logged in successfully");
+    mutationFn: verifyEmailAPI,
+    onSuccess: (data) => {
+      console.log("User registered successfully:", data);
+      toast.success("Account verified successfully");
+      router.push("/app");
       saveToken(data?.data?.data?.access_token);
-      const res = await getProfileAPI();
-      const userData = res?.data?.data;
-      if (userData) {
-        const setUser = useAuthStore.getState().setUser;
-        setUser(userData); // Store user data in Zustand
-
-        router.push("/app");
-      }
     },
     onError: (error: any) => {
       console.error("Error verifying otp:", error);
@@ -98,7 +90,7 @@ export default function EmailVerification() {
   const { isResending, timer, handleResendOtp } = useResendOtp(
     resendCodeAPI,
     email,
-    true
+    false
   );
 
   console.log("Email", email);
@@ -149,7 +141,7 @@ export default function EmailVerification() {
                 disabled={isResending || isPending}
                 className="w-full bg-[#6139E7] hover:bg-purple-700 text-white"
               >
-                {isPending ? <Spinner /> : "Sign in into your account"}
+                {isPending ? <Spinner /> : "Verify your email"}
               </Button>
             </form>
           </Form>

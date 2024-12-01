@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import CryptoJS from "crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useAuthStore } from "@/store/use-auth-store";
 
 const RESEND_TIMEOUT = 60; // in seconds
 const SECRET_KEY = "mySecretKey"; // Change this to a secure key
@@ -32,7 +33,12 @@ const setStoredTimestamp = (timestamp: number) => {
   localStorage.setItem("otpResendTimestamp", encryptedTimestamp);
 };
 
-export const useResendOtp = (resendCodeAPI: any, email: string) => {
+export const useResendOtp = (
+  resendCodeAPI: any,
+  email: string,
+  type: boolean
+) => {
+  const { user } = useAuthStore((state) => state);
   const [isResending, setIsResending] = useState(false);
   const [timer, setTimer] = useState(0);
 
@@ -54,7 +60,8 @@ export const useResendOtp = (resendCodeAPI: any, email: string) => {
   }, [timer]);
 
   const { mutate: resendMutation } = useMutation({
-    mutationFn: () => resendCodeAPI({ email, is_auth: true }),
+    mutationFn: () =>
+      resendCodeAPI({ email: email ? email : user?.email, is_auth: type }),
     onSuccess: () => {
       toast.success("OTP has been resent.");
       setStoredTimestamp(Date.now());

@@ -1,5 +1,6 @@
 import { Home, CreditCard, PlusCircle, BarChart2, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function MobileNavigation() {
   const navItems = [
@@ -12,16 +13,18 @@ export function MobileNavigation() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-background border-t">
-      <div className="flex justify-between items-center p-2">
+      <div className="flex justify-between items-center p-3 pt-4">
         {navItems.map((item, index) => (
-          <Button
-            key={index}
-            variant="ghost"
-            className="flex flex-col items-center"
-          >
-            <item.icon className="h-6 w-6" />
-            <span className="text-xs mt-1">{item.label}</span>
-          </Button>
+          <Link href="/">
+            <Button
+              key={index}
+              variant="ghost"
+              className="flex flex-col items-center hover:bg-none"
+            >
+              <item.icon className="h-7 w-7" />
+              <span className="text-xs mt-1">{item.label}</span>
+            </Button>
+          </Link>
         ))}
       </div>
     </nav>
