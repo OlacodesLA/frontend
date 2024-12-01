@@ -95,7 +95,7 @@ export default function PasswordSetup() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-[#6139E7] hover:bg-purple-700"
+              className="w-full bg-[#6139E7] hover:bg-[#6139E7]"
             >
               Set password
             </Button>

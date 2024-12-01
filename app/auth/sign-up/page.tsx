@@ -134,7 +134,7 @@ export default function RegistrationForm() {
             <h1 className="md:text-2xl text-xl font-bold">
               Create your account
             </h1>
-            <p className="md:text-sm text-xs text-gray-600">
+            <p className="md:text-sm text-[14px] text-gray-600">
               Please provide the following information to set up your account
             </p>
           </div>
@@ -150,11 +150,12 @@ export default function RegistrationForm() {
                       {...field}
                       id="first_name"
                       placeholder="First name"
+                      className="bg-[#FBFBFB]"
                     />
                   )}
                 />
                 {errors.first_name && (
-                  <p className="text-red-500 text-xs mt-1">
+                  <p className="text-red-500 text-[14px] mt-1">
                     {errors.first_name.message}
                   </p>
                 )}
@@ -165,11 +166,14 @@ export default function RegistrationForm() {
                   name="last_name"
                   control={control}
                   render={({ field }) => (
-                    <Input {...field} id="last_name" placeholder="Last name" />
+                    <Input {...field}
+                      id="last_name"
+                      placeholder="Last name"
+                      className="bg-[#FBFBFB]" />
                   )}
                 />
                 {errors.last_name && (
-                  <p className="text-red-500 text-xs mt-1">
+                  <p className="text-red-500 text-[14px] mt-1">
                     {errors.last_name.message}
                   </p>
                 )}
@@ -185,12 +189,13 @@ export default function RegistrationForm() {
                     {...field}
                     id="email"
                     type="email"
+                    className="bg-[#FBFBFB]"
                     placeholder="Email address"
                   />
                 )}
               />
               {errors.email && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="text-red-500 text-[14px] mt-1">
                   {errors.email.message}
                 </p>
               )}
@@ -201,10 +206,12 @@ export default function RegistrationForm() {
               <Controller
                 name="country"
                 control={control}
+                
                 render={({ field }) => (
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
+                    
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select a country" />
@@ -219,7 +226,7 @@ export default function RegistrationForm() {
                 )}
               />
               {errors.country && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="text-red-500 text-[14px] mt-1">
                   {errors.country.message}
                 </p>
               )}
@@ -234,11 +241,12 @@ export default function RegistrationForm() {
                     {...field}
                     id="phone_number"
                     placeholder="+1 234 567 8900"
+                    className="bg-[#FBFBFB]"
                   />
                 )}
               />
               {errors.phone_number && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="text-red-500 text-[14px] mt-1">
                   {errors.phone_number.message}
                 </p>
               )}
@@ -253,11 +261,12 @@ export default function RegistrationForm() {
                     {...field}
                     id="residential_address"
                     placeholder="Enter a location"
+                    className="bg-[#FBFBFB]"
                   />
                 )}
               />
               {errors.residential_address && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="text-red-500 text-[14px] mt-1">
                   {errors.residential_address.message}
                 </p>
               )}
@@ -272,9 +281,8 @@ export default function RegistrationForm() {
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className={`w-full justify-start text-left font-normal ${
-                          !field.value && "text-muted-foreground"
-                        }`}
+                        className={`w-full justify-start text-left font-normal ${!field.value && "text-muted-foreground"
+                          }`}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {field.value ? (
@@ -299,7 +307,7 @@ export default function RegistrationForm() {
                 )}
               />
               {errors.dob && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="text-red-500 text-[14px] mt-1">
                   {errors.dob.message}
                 </p>
               )}
@@ -316,11 +324,12 @@ export default function RegistrationForm() {
                       id="password"
                       type="password"
                       placeholder="Password"
+                      className="bg-[#FBFBFB]"
                     />
                   )}
                 />
                 {errors.first_name && (
-                  <p className="text-red-500 text-xs mt-1">
+                  <p className="text-red-500 text-[14px] mt-1">
                     {errors.first_name.message}
                   </p>
                 )}
@@ -336,11 +345,12 @@ export default function RegistrationForm() {
                       id="confirm_password"
                       type="password"
                       placeholder="Confirm Password"
+                      className="bg-[#FBFBFB]"
                     />
                   )}
                 />
                 {errors.last_name && (
-                  <p className="text-red-500 text-xs mt-1">
+                  <p className="text-red-500 text-[14px] mt-1">
                     {errors.last_name.message}
                   </p>
                 )}
@@ -349,7 +359,7 @@ export default function RegistrationForm() {
             <Button
               type="submit"
               disabled={isPending}
-              className="w-full bg-[#6139E7] hover:bg-purple-700"
+              className="w-full bg-[#6139E7] hover:bg-[#6139E7]"
             >
               {isPending ? <Spinner /> : " Create account"}
             </Button>
@@ -363,9 +373,9 @@ export default function RegistrationForm() {
         </div>
       </div>
       <div className="hidden lg:flex  bg-[#D3C9FD] p-10 w-[40%]">
-        <div className="">
+        <div className="pt-5">
           <Image src={logo} className="" alt="" />
-          <p className="mt-2 text-lg">
+          <p className="mt-2 text-lg leading-[30px]">
             Welcome to the future of <br />
             multi-currency transactions
           </p>

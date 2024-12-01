@@ -86,7 +86,8 @@ export default function Login() {
       <div className=" flex flex-1 items-center justify-center p-6 bg-white">
         <div className="w-full max-w-md space-y-8">
           <div className="">
-            <h1 className="text-2xl font-bold">Welcome Back, Makinwa!</h1>
+            <Image src={logo} className="lg:hidden block" alt="" />
+            <h1 className="text-[30px] font-bold">Welcome Back,</h1>
             <p className="text-[16px] text-[#4F5E71]">
               Please provide the following information to continue with your
               account
@@ -108,10 +109,11 @@ export default function Login() {
                             id="email"
                             type="email"
                             placeholder="Email address"
+                            className="bg-[#FBFBFB] border border-[#BAC7D580]"
                           />
                         </div>
                       </FormControl>
-                      <FormMessage className="mt-6 text-xs md:text-sm" />
+                      <FormMessage className="mt-6 text-[14px] md:text-sm" />
                     </FormItem>
                   )}
                 />
@@ -130,25 +132,26 @@ export default function Login() {
                             {...field}
                             id="password"
                             type="password"
-                            className=""
+                            className="bg-[#FBFBFB] border border-[#BAC7D580]"
                             placeholder="Enter Password"
+                        
                           />
                         </div>
                       </FormControl>
-                      <FormMessage className="mt-6 text-xs md:text-sm" />
+                      <FormMessage className="mt-6 text-[14px] md:text-sm" />
                     </FormItem>
                   )}
                 />
               </div>
               <Button
                 type="submit"
-                className="w-full bg-[#6139E7] hover:bg-purple-700"
+                className="w-full bg-[#6139E7] hover:bg-[#6139E7]"
               >
                 {isPending ? <Spinner /> : "Sign in"}
               </Button>
             </form>
           </Form>
-          <p className="text-center text-sm">
+          <p className="text-center text-[16px]">
             Don&apos;t have an account?{" "}
             <a href="/auth/sign-up" className="text-[#6139E7] hover:underline">
               Sign up
@@ -157,9 +160,9 @@ export default function Login() {
         </div>
       </div>
       <div className="hidden lg:flex  bg-[#D3C9FD] p-10 w-[40%]">
-        <div className="">
+        <div className="pt-10">
           <Image src={logo} className="" alt="" />
-          <p className="mt-2 text-lg">
+          <p className="mt-2 text-lg leading-[30px]">
             Welcome to the future of <br />
             multi-currency transactions
           </p>
