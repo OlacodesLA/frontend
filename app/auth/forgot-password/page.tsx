@@ -2,23 +2,21 @@
 import Image from "next/image";
 import Logo from "../../../public/UZEL.svg";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm ,Controller} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
-    InputOTP,
-    InputOTPGroup,
-    InputOTPSlot,
-} from "@/components/ui/input-otp";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
 } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
+
+
 
 const verificationSchema = z.object({
     otp: z.string().length(6, "OTP must be 6 digits"),
@@ -34,6 +32,7 @@ export default function EmailVerification() {
             otp: "",
         },
     });
+    
 
     const onSubmit = (data: VerificationData) => {
         console.log(data);
@@ -72,31 +71,30 @@ export default function EmailVerification() {
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-6 w-full"
                         >
-                            <FormField
-                                control={form.control}
-                                name="otp"
-                                render={({ field }) => (
-                                    <FormItem className="flex justify-center">
-                                        <FormLabel className="sr-only">One-time password</FormLabel>
-                                        <FormControl>
-                                            <InputOTP {...field} maxLength={6}>
-                                                <InputOTPGroup className="space-x-3">
-                                                    <InputOTPSlot index={0} />
-                                                    <InputOTPSlot index={1} />
-                                                    <InputOTPSlot index={2} />
-                                                    <InputOTPSlot index={3} />
-                                                    <InputOTPSlot index={4} />
-                                                    <InputOTPSlot index={5} />
-                                                </InputOTPGroup>
-                                            </InputOTP>
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
+                            <div>
+                                <Label htmlFor="email">Email</Label>
+                                <Controller
+                                    name="email"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Input
+                                            {...field}
+                                            id="email"
+                                            type="email"
+                                            className="bg-[#FBFBFB]"
+                                            placeholder="Email address"
+                                        />
+                                    )}
+                                />
+                                {errors.email && (
+                                    <p className="text-red-500 text-[14px] mt-1">
+                                        {errors.email.message}
+                                    </p>
                                 )}
-                            />
+                            </div>
                             <Button
                                 type="submit"
-                                className="w-full bg-[#6139E7] hover:bg-purple-700 text-white"
+                                className="w-full bg-[#6139E7] hover:bg-[#6139E7] text-white"
                             >
                                 Send Password Reset Link
                             </Button>

@@ -122,7 +122,7 @@ export default function EmailVerification() {
                     <FormControl className="flex justify-center items-center">
                       <InputOTP {...field} maxLength={6}>
                         <InputOTPGroup className="space-x-3">
-                          <InputOTPSlot index={0} />
+                          <InputOTPSlot index={0}/>
                           <InputOTPSlot index={1} />
                           <InputOTPSlot index={2} />
                           <InputOTPSlot index={3} />
@@ -139,7 +139,7 @@ export default function EmailVerification() {
               <Button
                 type="submit"
                 disabled={isResending || isPending}
-                className="w-full bg-[#6139E7] hover:bg-purple-700 text-white"
+                className="w-full bg-[#6139E7] hover:bg-[#6139E7] text-white"
               >
                 {isPending ? <Spinner /> : "Verify your email"}
               </Button>

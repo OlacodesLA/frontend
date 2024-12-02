@@ -147,7 +147,7 @@ export default function EmailVerification() {
               <Button
                 type="submit"
                 disabled={isResending || isPending}
-                className="w-full bg-[#6139E7] hover:bg-purple-700 text-white"
+                className="w-full bg-[#6139E7] hover:bg-[#6139E7] text-white"
               >
                 {isPending ? <Spinner /> : "Sign in into your account"}
               </Button>
