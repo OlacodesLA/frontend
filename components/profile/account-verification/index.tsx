@@ -2,18 +2,32 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuthStore } from "@/store/use-auth-store";
 import { CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import { useQueryState } from "nuqs";
 
 const Detail = ({ label, text }: { label: string; text: string }) => {
   return (
     <div>
       <label className="font-medium text-sm">{label}</label>
-      <p className="text-muted-foreground text-sm">{text}</p>
+      <p className="text-muted-foreground text-sm">{text ? text : "nil"}</p>
     </div>
   );
 };
 
 export function AccountVerification() {
+  const { user } = useAuthStore((state) => state);
+
+  const {
+    first_name,
+    last_name,
+    email,
+    phone_number,
+    residential_address,
+    country,
+  } = user || {};
+
   return (
     <div className="space-y-6 py-6">
       <Card>
@@ -31,8 +45,12 @@ export function AccountVerification() {
               </p>
             </div>
           </div>
-
-          <Button className="md:ml-0 ml-auto">Continue</Button>
+          <Link
+            href="/app/profile/account-verification"
+            className="md:ml-0 ml-auto"
+          >
+            <Button className="">Continue</Button>
+          </Link>
         </CardContent>
       </Card>
 
@@ -48,15 +66,12 @@ export function AccountVerification() {
         </CardHeader>
 
         <CardContent className="grid gap-4 sm:grid-cols-2">
-          <Detail label="First Name" text="Ademakinwa" />
-          <Detail label="Last Name" text="Ademakinwa" />
-          <Detail label="Email Address" text="amoriademakinwa@gmail.com" />
-          <Detail
-            label="Residential Address"
-            text="12, Makinwa street, Lekki, Lagos, Nigeria."
-          />
-          <Detail label="Nationality" text="Nigerian" />
-          <Detail label="Phone Number" text="+234 916 0345 054" />
+          <Detail label="First Name" text={first_name} />
+          <Detail label="Last Name" text={last_name} />
+          <Detail label="Email Address" text={email} />
+          <Detail label="Residential Address" text={residential_address} />
+          <Detail label="Nationality" text={country} />
+          <Detail label="Phone Number" text={phone_number} />
         </CardContent>
       </Card>
 

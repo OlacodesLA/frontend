@@ -12,7 +12,7 @@ const Card = React.forwardRef<
       boxShadow: "0px 2px 3px 0px #00000014",
     }}
     className={cn(
-      "rounded-xl border bg-card text-card-foreground shadow",
+      "border bg-card rounded-md text-card-foreground shadow",
       className
     )}
     {...props}
