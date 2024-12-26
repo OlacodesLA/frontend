@@ -15,6 +15,7 @@ import { MobileQuickActions } from "@/components/mobile-dashboard/mobile-quick-a
 import { MobileQuickAccess } from "@/components/mobile-dashboard/mobile-quick-access";
 import { MobileTransactions } from "@/components/mobile-dashboard/mobile-transactions";
 import { MobileNavigation } from "@/components/mobile-dashboard/mobile-navigation";
+import { CircleFlag } from "react-circle-flags";
 
 export default function Dashboard() {
   // const { setTheme } = useTheme();
@@ -38,7 +39,14 @@ export default function Dashboard() {
           <CardContent className="p-4">
             <div className="flex justify-between items-center mb-2">
               <div className="flex items-center">
-                <span className="mr-2">🇳🇬</span>
+                <span className="mr-2">
+                  <CircleFlag
+                    countryCode="ng"
+                    height="7"
+                    width="7"
+                    className="w-7 h-7 mb-1"
+                  />
+                </span>
                 <span className="font-medium">{selectedAccount}</span>
                 <ChevronDown className="ml-2 h-4 w-4" />
               </div>

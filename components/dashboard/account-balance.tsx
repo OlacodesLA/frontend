@@ -1,13 +1,15 @@
+import { CircleFlag } from "react-circle-flags";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
 import RefreshIcon from "../icons/refreshIcon";
+import FundAccount from "../payment";
 
 const accounts = [
-  { currency: "NGN", balance: "50,000.00", flag: "🇳🇬" },
-  { currency: "CAD", balance: "0.00", flag: "🇨🇦" },
-  { currency: "GBP", balance: "0.00", flag: "🇬🇧" },
-  { currency: "USD", balance: "2,000.00", flag: "🇺🇸" },
+  { currency: "NGN", balance: "50,000.00", flag: "ng" },
+  { currency: "CAD", balance: "0.00", flag: "🇨a" },
+  { currency: "GBP", balance: "0.00", flag: "gb" },
+  { currency: "USD", balance: "2,000.00", flag: "us" },
 ];
 
 export function AccountBalances() {
@@ -25,12 +27,13 @@ export function AccountBalances() {
         </div>
 
         <div className="mt-4 flex justify-end">
-          <Button
+          {/* <Button
             variant="default"
             className="bg-[#6139E7] hover:bg-[#6139E9]  text-primary-foreground"
           >
             + Fund account
-          </Button>
+          </Button> */}
+          <FundAccount />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -44,7 +47,12 @@ export function AccountBalances() {
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                {account.flag}{" "}
+                <CircleFlag
+                  countryCode={account?.flag}
+                  height="7"
+                  width="7"
+                  className="w-10 h-10 mb-1"
+                />
                 {account.currency === "NGN"
                   ? "Nigerian account"
                   : account.currency === "CAD"

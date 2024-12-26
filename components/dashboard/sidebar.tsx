@@ -25,15 +25,15 @@ import {
 import Link from "next/link";
 
 const menuItems = [
-  { icon: Home, label: "Home" },
-  { icon: CreditCard, label: "Payments" },
-  { icon: ArrowLeftRight, label: "P2P Trade" },
-  { icon: User, label: "Accounts" },
-  { icon: VirtualCard, label: "Virtual cards" },
-  { icon: PiggyBank, label: "Save Funds" },
-  { icon: Briefcase, label: "Invoicing" },
-  { icon: Plane, label: "Travel cards" },
-  { icon: ClipboardList, label: "Transactions" },
+  { icon: Home, label: "Home", href: "/app" },
+  { icon: CreditCard, label: "Payments", href: "/app/payments" },
+  { icon: ArrowLeftRight, label: "P2P Trade", href: "/" },
+  { icon: User, label: "Accounts", href: "/" },
+  { icon: VirtualCard, label: "Virtual cards", href: "/" },
+  { icon: PiggyBank, label: "Save Funds", href: "/" },
+  { icon: Briefcase, label: "Invoicing", href: "/" },
+  { icon: Plane, label: "Travel cards", href: "/" },
+  { icon: ClipboardList, label: "Transactions", href: "/" },
 ];
 
 export function Sidebar() {
@@ -42,11 +42,9 @@ export function Sidebar() {
   return (
     <ShadcnSidebar className="border-r">
       <SidebarHeader className="flex items-center justify-center py-10 px-4 border-b">
-        <Image src={logo}
-          className=""
-          alt="" />
+        <Image src={logo} className="" alt="" />
       </SidebarHeader>
-      <SidebarContent className="px-5" >
+      <SidebarContent className="px-5">
         <SidebarMenu>
           {menuItems.map((item) => (
             <SidebarMenuItem
@@ -61,7 +59,7 @@ export function Sidebar() {
                 asChild
                 className="hover:bg-[#D0C4F8] py-2 group hover:text-primary100"
               >
-                <Link href="/">
+                <Link href={item.href}>
                   <item.icon
                     className={cn(
                       "mr-2 h-4 w-4",

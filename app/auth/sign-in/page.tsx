@@ -22,6 +22,7 @@ import { useAuthStore } from "@/store/use-auth-store";
 import { useRouter } from "next/navigation";
 import { useResendOtp } from "@/utils/resend-otp";
 import { getProfileAPI } from "@/api/endpoints/profile";
+import { saveToken } from "@/utils/auth";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -46,7 +47,18 @@ export default function Login() {
   const { mutate, isPending } = useMutation({
     mutationFn: loginAPI,
     onSuccess: async (data) => {
+      toast.dismiss();
       console.log("User logged in successfully:", data);
+      toast.success("Account logged in successfully");
+      saveToken(data?.data?.data?.access_token);
+      const res = await getProfileAPI();
+      const userData = res?.data?.data;
+      if (userData) {
+        const setUser = useAuthStore.getState().setUser;
+        setUser(userData); // Store user data in Zustand
+
+        router.push("/app");
+      }
     },
     onError: async (error: any) => {
       toast.dismiss();
@@ -134,7 +146,6 @@ export default function Login() {
                             type="password"
                             className="bg-[#FBFBFB] border border-[#BAC7D580]"
                             placeholder="Enter Password"
-                        
                           />
                         </div>
                       </FormControl>
