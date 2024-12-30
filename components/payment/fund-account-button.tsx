@@ -11,7 +11,7 @@ export function FundAccountButton({ onClick }: FundAccountButtonProps) {
   return (
     <Button
       onClick={onClick}
-      className="bg-purple-600 hover:bg-purple-700 text-white flex items-center gap-2"
+      className="bg-primary100 hover:bg-primary100/90 text-white flex items-center gap-2"
     >
       <PlusCircle className="h-4 w-4" />
       Fund account

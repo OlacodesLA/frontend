@@ -46,7 +46,7 @@ export function AccountSelectModal({ onSelect }: AccountSelectModalProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="bg-purple-600 hover:bg-purple-700 text-white flex items-center gap-2">
+        <Button className="bg-primary100 hover:bg-primary100/90 text-white flex items-center gap-2">
           <PlusCircle className="h-4 w-4" />
           Fund account
         </Button>

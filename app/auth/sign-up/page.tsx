@@ -85,7 +85,7 @@ export default function RegistrationForm() {
         const setUser = useAuthStore.getState().setUser;
         setUser(userData); // Store user data in Zustand
         setTimeout(() => {
-          router.push("/auth/verify-otp");
+          router.push("/auth/verify-email");
         }, 500);
       }
     },
