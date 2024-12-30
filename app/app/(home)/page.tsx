@@ -18,10 +18,23 @@ import { MobileNavigation } from "@/components/mobile-dashboard/mobile-navigatio
 import { CircleFlag } from "react-circle-flags";
 
 export default function Dashboard() {
-  // const { setTheme } = useTheme();
-  const [isMobile, setIsMobile] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
   const { first_name } = useAuthStore((state) => state.user);
   const [selectedAccount] = React.useState("Nigerian account (NGN)");
+
+  React.useEffect(() => {
+   
+    const hasSeenWelcome = localStorage.getItem("hasSeenWelcome");
+
+    if (!hasSeenWelcome) {
+      setIsModalOpen(true); 
+      localStorage.setItem("hasSeenWelcome", "true");
+    }
+  }, []);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false); 
+  };
 
   return (
     <main className="flex-1 w-full overflow-y-auto md:pr-4">
@@ -30,7 +43,7 @@ export default function Dashboard() {
         <AccountBalances />
         <AccountVerification />
         <TransactionsTable />
-        <WelcomeModal />
+        <WelcomeModal isOpen={isModalOpen} onClose={handleCloseModal} />
       </div>
 
       {/* Mobile Dashboard */}
