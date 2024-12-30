@@ -7,7 +7,7 @@ import FundAccount from "../payment";
 
 const accounts = [
   { currency: "NGN", balance: "50,000.00", flag: "ng" },
-  { currency: "CAD", balance: "0.00", flag: "🇨a" },
+  { currency: "CAD", balance: "0.00", flag: "ca" },
   { currency: "GBP", balance: "0.00", flag: "gb" },
   { currency: "USD", balance: "2,000.00", flag: "us" },
 ];

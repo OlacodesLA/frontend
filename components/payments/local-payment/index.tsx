@@ -18,10 +18,12 @@ import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 import Image from "next/image";
 import { usePaymentStore } from "@/store/use-paymanet-store";
+import { CircleFlag } from "react-circle-flags";
+import SelectCountries from "@/helpers/select-countries";
 
 export function LocalPaymentForm() {
   const router = useRouter();
-  const { step, setStep } = usePaymentStore((state) => state);
+  const { localStep, setLocalStep } = usePaymentStore((state) => state);
   const [currency, setCurrency] = useQueryState("currency", {
     defaultValue: "",
   });
@@ -29,7 +31,7 @@ export function LocalPaymentForm() {
   const [formData, setFormData] = useState<any>({
     amount: "",
     fromCurrency: currency,
-    toCurrency: "GBP",
+    toCurrency: "NGN",
     recipientDetails: {
       country: "",
       fullName: "",
@@ -40,10 +42,10 @@ export function LocalPaymentForm() {
   });
 
   const accounts = [
-    { currency: "NGN account", code: "NGN", flag: "🇳🇬", icon: "₦" },
-    { currency: "CAD account", code: "CAD", flag: "🇨🇦", icon: "$" },
-    { currency: "GBP account", code: "GBP", flag: "🇬🇧", icon: "£" },
-    { currency: "USD account", code: "USD", flag: "🇺🇸", icon: "$" },
+    { currency: "NGN account", code: "NGN", flag: "ng", icon: "₦" },
+    { currency: "CAD account", code: "CAD", flag: "ca", icon: "$" },
+    { currency: "GBP account", code: "GBP", flag: "gb", icon: "£" },
+    { currency: "USD account", code: "USD", flag: "us", icon: "$" },
   ];
 
   return (
@@ -55,7 +57,7 @@ export function LocalPaymentForm() {
         className="h-fit w-7 ml-10"
       />
 
-      <div className="max-w-3xl mx-auto p-4 mb-20">
+      <div className="max-w-2xl mx-auto p-4 mb-20">
         <div className="flex flex-col items-center mb-6">
           <h1 className="text-2xl font-semibold text-center">Local payment</h1>
           <p className="text-sm text-center">
@@ -101,15 +103,10 @@ export function LocalPaymentForm() {
                     }}
                   >
                     <SelectTrigger className="w-32">
-                      <SelectValue />
+                      <SelectValue className="flex" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem defaultValue={currency} value="NGN">
-                        NGN
-                      </SelectItem>
-                      <SelectItem value="USD">USD</SelectItem>
-                      <SelectItem value="GBP">GBP</SelectItem>
-                      <SelectItem value="CAD">CAD</SelectItem>
+                      <SelectCountries defaultValue={currency} />
                     </SelectContent>
                   </Select>
                 </div>
@@ -153,15 +150,10 @@ export function LocalPaymentForm() {
                     }}
                   >
                     <SelectTrigger className="w-32">
-                      <SelectValue />
+                      <SelectValue className="item" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem defaultValue={currency} value="NGN">
-                        NGN
-                      </SelectItem>
-                      <SelectItem value="USD">USD</SelectItem>
-                      <SelectItem value="GBP">GBP</SelectItem>
-                      <SelectItem value="CAD">CAD</SelectItem>
+                      <SelectCountries defaultValue={currency} />
                     </SelectContent>
                   </Select>
                 </div>
@@ -174,7 +166,7 @@ export function LocalPaymentForm() {
             className="w-full"
             onClick={() => {
               console.log("Form Data", formData);
-              setStep(2);
+              setLocalStep(2);
             }}
           >
             Continue
@@ -198,7 +190,7 @@ export function PaymentMethod() {
         <Card className="p-4 border border-[#6139E733]">
           <div className="flex items-center gap-4">
             <Image
-              src="/payments/swift.svg"
+              src="/payments/bank.svg"
               width={150}
               height={150}
               className="w-8 h-8"

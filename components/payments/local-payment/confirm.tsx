@@ -13,20 +13,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { Account, PaymentFormData } from "@/interfaces/payments";
+import type { Account } from "@/interfaces/payments";
 import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 import Image from "next/image";
 import { usePaymentStore } from "@/store/use-paymanet-store";
+import { CircleFlag } from "react-circle-flags";
+import SelectCountries from "@/helpers/select-countries";
+import { Separator } from "@/components/ui/separator";
 
-interface PaymentFormProps {
-  //   onBack: () => void;
-  onContinue: (data: PaymentFormData) => void;
-}
-
-export function PaymentForm() {
+export function ConfirmPayment() {
   const router = useRouter();
-  const { step, setStep } = usePaymentStore((state) => state);
+  const { localStep, setLocalStep, setOtpModal, otpModal } = usePaymentStore(
+    (state) => state
+  );
   const [currency, setCurrency] = useQueryState("currency", {
     defaultValue: "",
   });
@@ -34,7 +34,7 @@ export function PaymentForm() {
   const [formData, setFormData] = useState<any>({
     amount: "",
     fromCurrency: currency,
-    toCurrency: "GBP",
+    toCurrency: "NGN",
     recipientDetails: {
       country: "",
       fullName: "",
@@ -45,10 +45,10 @@ export function PaymentForm() {
   });
 
   const accounts = [
-    { currency: "NGN account", code: "NGN", flag: "🇳🇬", icon: "₦" },
-    { currency: "CAD account", code: "CAD", flag: "🇨🇦", icon: "$" },
-    { currency: "GBP account", code: "GBP", flag: "🇬🇧", icon: "£" },
-    { currency: "USD account", code: "USD", flag: "🇺🇸", icon: "$" },
+    { currency: "NGN account", code: "NGN", flag: "ng", icon: "₦" },
+    { currency: "CAD account", code: "CAD", flag: "ca", icon: "$" },
+    { currency: "GBP account", code: "GBP", flag: "gb", icon: "£" },
+    { currency: "USD account", code: "USD", flag: "us", icon: "$" },
   ];
 
   return (
@@ -60,21 +60,37 @@ export function PaymentForm() {
         className="h-fit w-7 ml-10"
       />
 
-      <div className="max-w-3xl mx-auto p-4 mb-20">
+      <div className="max-w-2xl mx-auto p-4 mb-20">
         <div className="flex flex-col items-center mb-6">
-          <h1 className="text-2xl font-semibold text-center">
-            International payment
+          <h1 className="text-xl font-semibold text-center">
+            Transfer to local bank account
           </h1>
-          <p className="text-sm text-center">
-            Provide the requested information's below to process your
-            transaction
+          <p className="text-xs text-center text-muted-foreground">
+            Kindly check to confirm if the transaction details are correct
           </p>
         </div>
 
         <div className="space-y-6">
+          <div className="flex  justify-center items-center flex-col space-y-2">
+            <img
+              src="https://nigerianbanks.xyz/logo/guaranty-trust-bank.png"
+              alt=""
+              className="w-10 h-10 rounded-full shadow"
+            />
+            <div className="text-left">
+              <div className="font-medium text-sm text-center">
+                Account name: Amori Ademakinwa Designer
+              </div>
+              <div className="text-sm text-center text-muted-foreground">
+                "Guaranty Trust Bank (0069405573)
+              </div>
+            </div>
+          </div>
+          <div className="border-dashed border-t border-primary100 my-4" />
           <div className="space-y-4">
+            <div className="mb-4 text-black text-sm">Transaction details</div>
             <Card className="border-[#6139E74D]">
-              <CardContent className="md:p-6 p-3 border-[#6139E74D]">
+              <CardContent className="md:p-3 p-2 border-[#6139E74D]">
                 <div className="flex items-center justify-between w-full">
                   <div>
                     <Label>You send</Label>
@@ -87,49 +103,25 @@ export function PaymentForm() {
                             }
                           })}
                         </div>
-                        <Input
-                          type="text"
-                          noBorders
-                          value={formData.amount}
-                          placeholder="0.00"
-                          onChange={(e) =>
-                            setFormData({ ...formData, amount: e.target.value })
-                          }
-                          className="flex-1 border-none w-full md:text-lg md:placeholder:text-lg focus:border-none focus:ring-0 focus-within:border-none"
-                        />
+                        <div className="flex-1  w-full md:text-lg md:placeholder:text-lg ">
+                          250,000.00
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <Select
-                    value={formData.fromCurrency}
-                    onValueChange={(value) => {
-                      setFormData({ ...formData, fromCurrency: value });
-                      setCurrency(value);
-                    }}
-                  >
-                    <SelectTrigger className="w-32">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem defaultValue={currency} value="NGN">
-                        NGN
-                      </SelectItem>
-                      <SelectItem value="USD">USD</SelectItem>
-                      <SelectItem value="GBP">GBP</SelectItem>
-                      <SelectItem value="CAD">CAD</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <div className="border-2 rounded-sm text-sm space-x-1 font-semibold border-primary-light px-3 py-1.5 inline-flex items-center">
+                    <CircleFlag countryCode="ng" className="w-4 h-4 mr-1" />
+                    NGN
+                  </div>
                 </div>
               </CardContent>
             </Card>
-            <div className="flex justify-center">
-              <ArrowUpDown className="h-6 w-6 text-black" />
-            </div>
+
             <Card className="border-[#6139E74D]">
-              <CardContent className="md:p-6 p-3 border-[#6139E74D]">
+              <CardContent className="md:p-3 p-2 border-[#6139E74D]">
                 <div className="flex items-center justify-between w-full">
                   <div>
-                    <Label>Receiver gets</Label>
+                    <Label>Amori Ademakinwa (Recipient) gets</Label>
                     <div className="flex gap-4 mt-2 w-full">
                       <div className="relative flex items-center w-full">
                         <div className="text-black md:text-lg text-base">
@@ -139,58 +131,35 @@ export function PaymentForm() {
                             }
                           })}
                         </div>
-                        <Input
-                          type="text"
-                          noBorders
-                          value={formData.amount}
-                          placeholder="0.00"
-                          onChange={(e) =>
-                            setFormData({ ...formData, amount: e.target.value })
-                          }
-                          className="flex-1 border-none w-full md:text-lg md:placeholder:text-lg focus:border-none focus:ring-0 focus-within:border-none"
-                        />
+                        <div className="flex-1  w-full md:text-lg md:placeholder:text-lg ">
+                          250,000.00
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <Select
-                    value={formData.fromCurrency}
-                    onValueChange={(value) => {
-                      setFormData({ ...formData, fromCurrency: value });
-                      setCurrency(value);
-                    }}
-                  >
-                    <SelectTrigger className="w-32">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem defaultValue={currency} value="NGN">
-                        NGN
-                      </SelectItem>
-                      <SelectItem value="USD">USD</SelectItem>
-                      <SelectItem value="GBP">GBP</SelectItem>
-                      <SelectItem value="CAD">CAD</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <div className="border-2 rounded-sm text-sm space-x-1 font-semibold border-primary-light px-3 py-1.5 inline-flex items-center">
+                    <CircleFlag countryCode="ng" className="w-4 h-4 mr-1" />
+                    NGN
+                  </div>
                 </div>
               </CardContent>
             </Card>
           </div>
-          <div className="ml-auto space-y-1 text-xs md:text-sm">
+          <div className="pb-10 space-y-1 text-xs md:text-sm">
+            <p className="text-[#4F5E71]">Send Fee: - 5,000 NGN</p>
             <p className="text-[#4F5E71]">
-              Conversion rate: 1 GBP = 1653.00 NGN
+              Total money to be removed from your NGN account: - 255,000.00 NGN
             </p>
-            <p className="text-[#4F5E71]">Send rate: -0.00 GBP</p>
           </div>
-          <PaymentMethod />
 
           <Button
             className="w-full"
             onClick={() => {
-              console.log("Form Data", formData);
-              setStep(2);
+              console.log("Form Data", formData, localStep);
+              setOtpModal(true);
             }}
           >
-            Continue
+            Make payment (-255,000.00 NGN)
           </Button>
         </div>
       </div>
@@ -211,7 +180,7 @@ export function PaymentMethod() {
         <Card className="p-4 border border-[#6139E733]">
           <div className="flex items-center gap-4">
             <Image
-              src="/payments/swift.svg"
+              src="/payments/bank.svg"
               width={150}
               height={150}
               className="w-8 h-8"

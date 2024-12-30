@@ -64,7 +64,7 @@ export function LocalPaymentModal() {
     console.log("Form Data", formData);
 
     if (formData?.account && formData?.transactionType == "single") {
-      router.push(`/app/payment/local-payment/single`);
+      router.push(`/app/payment/local-payment/single?currency=NGN`);
     }
   };
 
@@ -84,7 +84,7 @@ export function LocalPaymentModal() {
             <Select
               value={formData.account}
               onValueChange={(value) =>
-                setFormData((prev) => ({ ...prev, account: value }))
+                setFormData((prev: any) => ({ ...prev, account: value }))
               }
             >
               <SelectTrigger className="w-full">
@@ -115,7 +115,7 @@ export function LocalPaymentModal() {
                 defaultValue="single"
                 className="grid grid-cols-2 gap-4 mt-2"
                 onValueChange={(value) =>
-                  setFormData((prev) => ({
+                  setFormData((prev: any) => ({
                     ...prev,
                     transactionType: value as "single" | "mass",
                   }))
@@ -149,24 +149,6 @@ export function LocalPaymentModal() {
                 </div>
               </RadioGroup>
             </div>
-
-            {/* <div>
-              <Label>Amount</Label>
-              <div className="relative mt-2">
-                <Input
-                  type="number"
-                  placeholder="0.00"
-                  value={formData.amount}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, amount: e.target.value }))
-                  }
-                  className="pl-8"
-                />
-                <span className="absolute left-3 top-2.5 text-muted-foreground">
-                  ₦
-                </span>
-              </div>
-            </div> */}
 
             <Button type="submit" className="w-full ">
               Proceed
