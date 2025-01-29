@@ -30,7 +30,7 @@ const menuItems = [
   { icon: ArrowLeftRight, label: "P2P Trade", href: "/" },
   { icon: User, label: "Accounts", href: "/" },
   { icon: VirtualCard, label: "Virtual cards", href: "/" },
-  { icon: PiggyBank, label: "Save Funds", href: "/" },
+  { icon: PiggyBank, label: "Save Funds", href: "/app/savefunds" },
   { icon: Briefcase, label: "Invoicing", href: "/" },
   { icon: Plane, label: "Travel cards", href: "/" },
   { icon: ClipboardList, label: "Transactions", href: "/" },

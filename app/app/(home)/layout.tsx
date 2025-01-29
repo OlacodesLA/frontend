@@ -15,9 +15,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="flex w-full md:flex-row h-full pb-20 flex-col min-h-screen bg-background">
         <div className="lg:flex hidden">
           <Sidebar />
-          <SidebarTrigger />
+          <SidebarTrigger className="hidden"/>
         </div>
-        <div className="flex flex-col h-full w-full">
+        <div className="flex flex-col h-full w-full px-10">
           <div className="flex justify-between w-full items-center mb-3 p-4 border-b">
             <div>
               <h1 className="md:text-2xl text-xl font-bold">

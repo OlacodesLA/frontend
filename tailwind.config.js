@@ -16,6 +16,11 @@ module.exports = {
       },
     },
     extend: {
+      backgroundImage: {
+       
+        savefunds: "url('/savefunds/savefundsbg.svg')",
+        
+      },
       fontFamily: {
         dm: ["DM Sans", "sans-serif"],
       },
