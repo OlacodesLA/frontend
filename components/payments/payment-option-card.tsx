@@ -25,6 +25,12 @@ export function PaymentOptionCard({
     "local_payment",
     parseAsBoolean.withDefault(false)
   );
+
+  const [inApppayment, setInAppPayment] = useQueryState(
+    "in_app",
+    parseAsBoolean.withDefault(false)
+  );
+
   const icons = {
     international: "international-payment",
     local: "local-payment",
@@ -40,7 +46,9 @@ export function PaymentOptionCard({
     local: () => {
       setLocalPayment(true);
     },
-    "in-app": () => {},
+    "in-app": () => {
+      setInAppPayment(true);
+    },
     usdc: () => {},
     invoice: () => {},
   };

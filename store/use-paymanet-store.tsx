@@ -15,15 +15,19 @@ import { User } from "@/interfaces/user-types";
 type PaymentStore = {
   selectedBeneficiary: any;
   step: number;
+  massStep: number;
   localStep: number;
   success: boolean;
+  massSuccess: boolean;
   otpModal: boolean;
   showBeneficiaries: boolean;
   setShowBeneficiaries: (step: boolean) => void;
   setSelectedBeneficiary: (selectedBeneficiary: any) => void;
   setStep: (step: number) => void;
   setLocalStep: (step: number) => void;
+  setMassStep: (step: number) => void;
   setSuccess: (step: boolean) => void;
+  setMassSuccess: (step: boolean) => void;
   setOtpModal: (step: boolean) => void;
 };
 
@@ -36,7 +40,9 @@ export const usePaymentStore = create<PaymentStore>()(
       showBeneficiaries: false,
       selectedBeneficiary: null,
       localStep: 1,
+      massStep: 1,
       success: false,
+      massSuccess: false,
       setSelectedBeneficiary: (selectedBeneficiary: any) => {
         set({ selectedBeneficiary });
       },
@@ -46,11 +52,17 @@ export const usePaymentStore = create<PaymentStore>()(
       setLocalStep: (localStep: number) => {
         set({ localStep });
       },
+      setMassStep: (massStep: number) => {
+        set({ massStep });
+      },
       setStep: (step: number) => {
         set({ step });
       },
       setSuccess: (success: boolean) => {
         set({ success });
+      },
+      setMassSuccess: (massSuccess: boolean) => {
+        set({ massSuccess });
       },
       setOtpModal: (otpModal: boolean) => {
         set({ otpModal });

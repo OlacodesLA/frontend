@@ -1,4 +1,5 @@
 "use client";
+import PaymentFlow from "@/components/payments/in-app/payment-flow";
 import { AccountSelectModal } from "@/components/payments/modals/account-select-modal";
 import { LocalPaymentModal } from "@/components/payments/modals/local-payment";
 import { PaymentOptionCard } from "@/components/payments/payment-option-card";
@@ -41,6 +42,7 @@ export default function PaymentDashboard() {
     <div className="container mx-auto p-6 space-y-8">
       <AccountSelectModal onSelectAccount={handleAccountSelect} />
       <LocalPaymentModal />
+      <PaymentFlow />
 
       <section>
         <h2 className="text-xl font-semibold mb-4">Send money</h2>

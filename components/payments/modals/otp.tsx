@@ -48,11 +48,17 @@ const accounts: Account[] = [
   { type: "USD account", balance: "$0", currency: "USD" },
 ];
 
-export function OTPModal() {
+export function OTPModal({
+  setOtpModal,
+  setSuccess,
+  otpModal,
+}: {
+  setOtpModal: any;
+  setSuccess: any;
+  otpModal: boolean;
+}) {
   const router = useRouter();
-  const { setOtpModal, otpModal, setSuccess } = usePaymentStore(
-    (state) => state
-  );
+
   const form = useForm({
     defaultValues: {
       otp: "",
@@ -65,7 +71,6 @@ export function OTPModal() {
 
   const onSubmit = (data: any) => {
     console.log(data);
-
     setSuccess(true);
     setOtpModal(false);
     // Handle OTP verification

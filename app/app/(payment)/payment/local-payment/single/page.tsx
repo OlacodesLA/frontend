@@ -13,9 +13,14 @@ import { useRouter } from "next/navigation";
 type Props = {};
 
 const LocalPayment = (props: Props) => {
-  const { localStep, setLocalStep, setSuccess, success } = usePaymentStore(
-    (state) => state
-  );
+  const {
+    localStep,
+    setLocalStep,
+    setSuccess,
+    success,
+    setOtpModal,
+    otpModal,
+  } = usePaymentStore((state) => state);
 
   const router = useRouter();
   if (localStep === 1) {
@@ -37,7 +42,11 @@ const LocalPayment = (props: Props) => {
     return (
       <div>
         <ConfirmPayment />
-        <OTPModal />
+        <OTPModal
+          setOtpModal={setOtpModal}
+          otpModal={otpModal}
+          setSuccess={setSuccess}
+        />
         <SuccessModal
           isOpen={success}
           onClose={() => {
