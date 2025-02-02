@@ -59,7 +59,7 @@ export default function PaymentFlow() {
         <AccountSelection
           onNext={() => {
             router.push("/app/payment/in-app");
-            handleClose();
+            // handleClose();
           }}
         />
       ),

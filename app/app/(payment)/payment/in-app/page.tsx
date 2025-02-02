@@ -9,10 +9,14 @@ import type {
   Account,
   PaymentDetails as PaymentDetailsType,
 } from "@/interfaces/in-app";
+import { OTPModal } from "@/components/payments/modals/otp";
+import { SuccessModal } from "@/components/payments/modals/success";
 
 export default function PaymentDetailsPage() {
   const router = useRouter();
   const [step, setStep] = useState<"details" | "otp" | "success">("details");
+  const [otpOpen, setOtpOpen] = useState(false);
+  const [onSuccess, setOnSuccess] = useState(false);
   const [recipient] = useState<Account>({
     name: "Amori Ademakinwa Designer",
     tag: "@Makinwaa",
@@ -25,7 +29,7 @@ export default function PaymentDetailsPage() {
 
   const handlePaymentDetailsSubmit = (details: PaymentDetailsType) => {
     setPaymentDetails(details);
-    setStep("otp");
+    setOtpOpen(true);
   };
 
   const handleOtpSubmit = () => {
@@ -36,24 +40,31 @@ export default function PaymentDetailsPage() {
     router.push("/");
   };
 
+  console.log("Step", step);
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        {step === "details" && (
-          <PaymentDetails
-            recipient={recipient}
-            onNext={handlePaymentDetailsSubmit}
-          />
-        )}
-        {step === "otp" && <OtpVerification onNext={handleOtpSubmit} />}
-        {step === "success" && paymentDetails && (
-          <PaymentSuccess
-            recipient={recipient}
-            paymentDetails={paymentDetails}
-            onClose={handleClose}
-          />
-        )}
-      </div>
+    <div className="">
+      <PaymentDetails
+        recipient={recipient}
+        onNext={handlePaymentDetailsSubmit}
+      />
+
+      {otpOpen && (
+        <OTPModal
+          setOtpModal={setOtpOpen}
+          otpModal={otpOpen}
+          setSuccess={setOnSuccess}
+        />
+      )}
+      {onSuccess && (
+        <SuccessModal
+          isOpen={onSuccess}
+          onClose={() => {
+            setOnSuccess(false);
+            router.push("/app");
+          }}
+        />
+      )}
     </div>
   );
 }
