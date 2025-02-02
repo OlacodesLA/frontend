@@ -29,6 +29,7 @@ export function SavingsAccountBalances() {
                 </Button>
             </div>
             <QuickSaveModal isOpen={isQuickSaveModalOpen} onClose={() => setIsQuickSaveModalOpen(false)} />
+            
             <div className="bg-[#F6F3FE] rounded-sm px-5 py-2 flex gap-3 items-center">
                 <Image src={Piggy} alt="" className="w-[80px] h-[80px]" />
                 <p className="text-[#4F5E71] text-[14px]">Register here for a UZEL savings account and begin saving. You get up to 3% interest on each of your savings.</p>
