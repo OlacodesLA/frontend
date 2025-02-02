@@ -6,10 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-import type {
-  Account,
-  PaymentDetails as PaymentDetailsType,
-} from "@/interfaces/payments";
+import type { Account } from "@/interfaces/payments";
+
 import {
   Select,
   SelectContent,
@@ -27,8 +25,8 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface PaymentDetailsProps {
-  recipient: Account;
-  onNext: (details: PaymentDetailsType) => void;
+  recipient: any;
+  onNext: (details: any) => void;
 }
 
 export function PaymentDetails({ recipient, onNext }: PaymentDetailsProps) {

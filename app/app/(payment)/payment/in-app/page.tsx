@@ -17,12 +17,13 @@ export default function PaymentDetailsPage() {
   const [step, setStep] = useState<"details" | "otp" | "success">("details");
   const [otpOpen, setOtpOpen] = useState(false);
   const [onSuccess, setOnSuccess] = useState(false);
-  const [recipient] = useState<Account>({
+  const [recipient] = useState({
     name: "Amori Ademakinwa Designer",
     tag: "@Makinwaa",
     avatar: "/placeholder.svg",
     type: "Nigerian account",
     currency: "NGN",
+    balance: "",
   });
   const [paymentDetails, setPaymentDetails] =
     useState<PaymentDetailsType | null>(null);
