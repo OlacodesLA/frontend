@@ -23,21 +23,23 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const menuItems = [
   { icon: Home, label: "Home", href: "/app" },
   { icon: CreditCard, label: "Payments", href: "/app/payments" },
-  { icon: ArrowLeftRight, label: "P2P Trade", href: "/" },
-  { icon: User, label: "Accounts", href: "/" },
+  { icon: ArrowLeftRight, label: "P2P Trade", href: "/app/p2p" },
+  { icon: User, label: "Accounts", href: "/app/accounts" },
   { icon: VirtualCard, label: "Virtual cards", href: "/app/virtualcard" },
   { icon: PiggyBank, label: "Save Funds", href: "/app/savefunds" },
-  { icon: Briefcase, label: "Invoicing", href: "/" },
-  { icon: Plane, label: "Travel cards", href: "/" },
-  { icon: ClipboardList, label: "Transactions", href: "/" },
+  { icon: Briefcase, label: "Invoicing", href: "#" },
+  { icon: Plane, label: "Travel cards", href: "#" },
+  { icon: ClipboardList, label: "Transactions", href: "#" },
 ];
 
 export function Sidebar() {
-  const [activeItem, setActiveItem] = React.useState("Home");
+  const [activeItem, setActiveItem] = React.useState();
+  const pathname = usePathname();
 
   return (
     <ShadcnSidebar className="border-r">
@@ -50,7 +52,7 @@ export function Sidebar() {
             <SidebarMenuItem
               onClick={() => setActiveItem(item.label)}
               className={cn(
-                activeItem === item.label && "bg-[#D0C4F8] rounded-sm",
+                pathname === item.href && "bg-[#D0C4F8] rounded-sm",
                 "flex items-center mx-4 my-2 hover:b-primary/10"
               )}
               key={item.label}
@@ -63,7 +65,7 @@ export function Sidebar() {
                   <item.icon
                     className={cn(
                       "mr-2 h-4 w-4",
-                      activeItem === item.label
+                      pathname === item.href
                         ? "text-primary"
                         : "text-muted-foreground"
                     )}
