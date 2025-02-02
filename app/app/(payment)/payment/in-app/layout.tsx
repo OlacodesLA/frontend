@@ -12,14 +12,14 @@ type Props = {
   children: React.ReactNode;
 };
 
-const InternationalPaymentLayout = ({ children }: Props) => {
+const InAppPaymentLayout = ({ children }: Props) => {
   const { first_name, last_name } = useAuthStore((state) => state.user);
 
   return (
     <div>
       <div className="flex flex-col h-full w-full">
         <div className="flex">
-          <div className="flex items-center justify-center py-8 px-4 border-b">
+          <div className="flex items-center justify-center py-4 px-4 border-b">
             <Image src={logo} className="" alt="" />
           </div>
           <div className="flex justify-between w-full items-center p-4 border-b">
@@ -52,4 +52,4 @@ const InternationalPaymentLayout = ({ children }: Props) => {
   );
 };
 
-export default InternationalPaymentLayout;
+export default InAppPaymentLayout;

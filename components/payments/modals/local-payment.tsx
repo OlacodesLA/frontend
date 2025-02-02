@@ -66,6 +66,10 @@ export function LocalPaymentModal() {
     if (formData?.account && formData?.transactionType == "single") {
       router.push(`/app/payment/local-payment/single?currency=NGN`);
     }
+
+    if (formData?.account && formData?.transactionType == "mass") {
+      router.push(`/app/payment/local-payment/mass?currency=NGN`);
+    }
   };
 
   return (

@@ -22,7 +22,7 @@ const InternationalPaymentLayout = ({ children }: Props) => {
           <div className="flex items-center justify-center py-8 px-4 border-b">
             <Image src={logo} className="" alt="" />
           </div>
-          <div className="flex justify-between w-full items-center mb-3 p-4 border-b">
+          <div className="flex justify-between w-full items-center  p-4 border-b">
             <div>
               <h1 className="md:text-2xl text-xl font-bold">
                 Welcome, {first_name}
