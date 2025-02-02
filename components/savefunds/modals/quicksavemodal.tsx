@@ -1,14 +1,13 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Controller, useForm } from "react-hook-form";
-import { CalendarIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
-import { format } from "date-fns"; // Make sure to import the format function
 import { Form } from "@/components/ui/form";
+import { useState } from "react";
 
 interface QuickSaveModalProps {
     isOpen: boolean;
@@ -16,34 +15,46 @@ interface QuickSaveModalProps {
 }
 
 interface FormData {
-    firstWithdrawalDate: Date | null;
-    secondWithdrawalDate: Date | null;
+    sendFromAccount: string | null;
+    saveToAccount: string | null;
 }
 
 export function QuickSaveModal({ isOpen, onClose }: QuickSaveModalProps) {
     const { control, handleSubmit } = useForm<FormData>({
         defaultValues: {
-            firstWithdrawalDate: null,
-            secondWithdrawalDate: null,
+            sendFromAccount: null,
+            saveToAccount: null,
         },
     });
 
-    const onSubmit = (data: FormData) => {
+    const router = useRouter();
 
+    const onSubmit = (data: FormData) => {
         console.log("Form submitted with data:", data);
         onClose();
+        router.push("/app/savefunds/save"); // Redirects to save funds page
     };
+
+    const accounts = [
+        "USD - 1234",
+        "GBP - 5678",
+        "CAD - 9876",
+        "NGN - 4321"
+    ]; // Updated account list with different currencies
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-md text-center font-dm">
-                <h1 className="text-[20px] ">Quick Save</h1>
-                <p className="text-[14px] text-[#4F5E71]">Select the account you want to save from and the currency you want to save.</p>
+                <h1 className="text-[20px]">Quick Save</h1>
+                <p className="text-[14px] text-[#4F5E71]">
+                    Select the account you want to save from and the account you want to save in.
+                </p>
                 <form onSubmit={handleSubmit(onSubmit)} className="text-left space-y-3">
+                    {/* Select "Send From" Account */}
                     <div className="flex flex-col gap-3">
-                        <Label htmlFor="firstWithdrawalDate">Set First Withdrawal Date</Label>
+                        <Label htmlFor="sendFromAccount">Select Account You Want to Send From</Label>
                         <Controller
-                            name="firstWithdrawalDate"
+                            name="sendFromAccount"
                             control={control}
                             render={({ field }) => (
                                 <Popover>
@@ -52,27 +63,31 @@ export function QuickSaveModal({ isOpen, onClose }: QuickSaveModalProps) {
                                             variant="outline"
                                             className={`w-full justify-start text-left font-normal ${!field.value && "text-muted-foreground"}`}
                                         >
-                                            <p className="text-[#697D95]">mm/dd/yy</p>
+                                            {field.value || <p className="text-[#697D95]">Select account</p>}
                                         </Button>
                                     </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0" align="start">
-                                        <Calendar
-                                            mode="single"
-                                            // selected={field.value}
-                                            onSelect={field.onChange}
-                                            disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
-                                            initialFocus
-                                        />
+                                    <PopoverContent className="w-auto p-2" align="start">
+                                        {accounts.map((account) => (
+                                            <button
+                                                key={account}
+                                                type="button"
+                                                className="block w-full text-left p-2 hover:bg-gray-100"
+                                                onClick={() => field.onChange(account)}
+                                            >
+                                                {account}
+                                            </button>
+                                        ))}
                                     </PopoverContent>
                                 </Popover>
                             )}
                         />
                     </div>
 
+                    {/* Select "Save To" Account */}
                     <div className="flex flex-col gap-3">
-                        <Label htmlFor="secondWithdrawalDate">Set Second Withdrawal Date</Label>
+                        <Label htmlFor="saveToAccount">Select Account You Want to Save In</Label>
                         <Controller
-                            name="secondWithdrawalDate"
+                            name="saveToAccount"
                             control={control}
                             render={({ field }) => (
                                 <Popover>
@@ -81,26 +96,34 @@ export function QuickSaveModal({ isOpen, onClose }: QuickSaveModalProps) {
                                             variant="outline"
                                             className={`w-full justify-start text-left font-normal ${!field.value && "text-muted-foreground"}`}
                                         >
-                                            <p className="text-[#697D95]">mm/dd/yy</p>
+                                            {field.value || <p className="text-[#697D95]">Select account</p>}
                                         </Button>
                                     </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0" align="start">
-                                        <Calendar
-                                            mode="single"
-                                            // selected={field.value}
-                                            onSelect={field.onChange}
-                                            disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
-                                            initialFocus
-                                        />
+                                    <PopoverContent className="w-auto p-2" align="start">
+                                        {accounts.map((account) => (
+                                            <button
+                                                key={account}
+                                                type="button"
+                                                className="block w-full text-left p-2 hover:bg-gray-100"
+                                                onClick={() => field.onChange(account)}
+                                            >
+                                                {account}
+                                            </button>
+                                        ))}
                                     </PopoverContent>
                                 </Popover>
                             )}
                         />
                     </div>
-                    <p className="text-[14px] text-[#4F5E71]">Note: This date applies only to your NGN savings, to apply a general date make use of “All”</p>
+
+                    <p className="text-[14px] text-[#4F5E71]">
+                        Note: This applies only to your NGN savings. To apply a general setting, select “All”.
+                    </p>
 
                     <div className="w-full py-4">
-                        <Button type="submit" className="w-full">Lock Savings</Button>
+                        <Button type="submit" className="w-full">
+                            Proceed
+                        </Button>
                     </div>
                 </form>
             </DialogContent>

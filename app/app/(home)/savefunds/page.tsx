@@ -8,8 +8,8 @@ import background from "../../../../public/savefunds/Rectangle 40538.svg";
 
 const savefunds = () => {
     return (  
-        <div className="w-full bg-[#6139E70D]">
-            <div className="bg-savefunds h-[100vh] bg-no-repeat bg-cover font-dm flex justify-center items-center flex-col">
+        <div className="w-full">
+            <div className="font-dm flex justify-center items-center flex-col">
             <div>
                 <Image src={Piggy} alt="" className=""/>
             </div>
